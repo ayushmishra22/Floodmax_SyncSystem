@@ -10,6 +10,9 @@ public class Process extends Thread {
     int round;
     Integer sync_round;//used for synchronizing the processes
     boolean termination;
+    Process[] neighbours;
+    int msg_front;
+    int msg_rear;
 
     //constructor
      public Process(int id){
@@ -21,6 +24,9 @@ public class Process extends Thread {
         round=0;
         temp_leader=id;
         termination=Boolean.FALSE;
+        message_buffer = new Message[2*neighbours.length];
+        msg_front = 0;
+        msg_rear = 0;
     }
 
     public void run(){
