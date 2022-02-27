@@ -11,6 +11,7 @@ public class Process extends Thread {
     Integer sync_round;//used for synchronizing the processes
     boolean termination;
     Process[] neighbours;
+    Message[] message_buffer;
     int msg_front;
     int msg_rear;
 
