@@ -12,13 +12,17 @@ public class Process extends Thread {
     boolean termination;
 
     //constructor
-    public Process(int id){
+     public Process(int id){
+        uid=id;
+    }
+    public Process(int id,ArrayList<Neighbour> neigh_list){
         uid=id;
         parent=-1;
         round=0;
         temp_leader=id;
         termination=Boolean.FALSE;
     }
+
     public void run(){
         System.out.println("Hey I am process "+uid);
         //message generation,sending/receiving code goes here
