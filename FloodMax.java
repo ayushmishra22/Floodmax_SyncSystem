@@ -43,45 +43,37 @@ import java.util.*;
                 }
         }
  */       
+
 public class Floodmax {
-	//Step 1. Send id to neighbors
-	//Step 2. Receive messages from all neighbors
-	//Step 3. Select max id and store it in Process.max_id variable
-	//Step 4. Send the max id to all other neighbors
-	
-	public void begin_floodmax(Process p) {
-		int count_neighbours = p.neighbours.length;
-		for(int i = 0; i<=count_neighbours; i++) {
-			Message msg = new Message(p, p.neighbours[i], "max_uid", ""+p.max_uid);
-			if(p.neighbours[i].msg_rear != p.neighbours[i].message_buffer.length -1) {
-				p.neighbours[i].message_buffer[p.msg_rear+1] = msg;	
-				p.neighbours[i].msg_rear += 1;
+	int round; 			//To keep track of round number.
+	public void floodmax(Process p) {
+		if(round == 1) {			//If it is the first round, then each process must send its id to all its neighbors
+			for(int i = 0; i<=p.neighbours.length; i++) {
+				Message msg = new Message(p, p.neighbours[i], "max_uid", ""+p.max_uid);
+				msg.receiver.message_buffer.offer(msg);
 			}
-		}
+		}	
 		
-		while(p.msg_front != p.msg_rear) {
-			Message received_msg = p.message_buffer[p.msg_front];
+		while(p.message_buffer.size() != 0) { 			//Each process must execute every message and send corresponding messages to its neighbors.
+			Message received_msg = p.message_buffer.poll();
 			if(received_msg.type  == "max_uid") {
-				if(p.max_uid >= Integer.parseInt(received_msg.message)) {
+				if(p.max_uid >= Integer.parseInt(received_msg.message)) { 		//If max id in message is lesser than max_id encountered by process then send reject message.
 					Message msg = new Message(p,received_msg.sender , "reject", "");
-					msg.receiver.message_buffer[msg.receiver.msg_rear+1] = msg;	
-					msg.receiver.msg_rear += 1;
-				if(p.max_uid < Integer.parseInt(p.message_buffer[p.msg_front].message)) {
-					p.max_uid = Integer.parseInt(p.message_buffer[p.msg_front].message);
+					msg.receiver.message_buffer.offer(msg);	
+				}
+				if(p.max_uid < Integer.parseInt(received_msg.message)) {		//If max id in message is greater than max_id encountered by process then update max_id and send max_id to all other neighbors
+					p.max_uid = Integer.parseInt(received_msg.message);
+					p.parent = received_msg.sender;
 					//send the max id to others
 					for(int i = 0; i < p.neighbours.length; i++) {
 						if(p.neighbours[i] != received_msg.sender) {
 							Message msg_to_send = new Message(p, p.neighbours[i], "max_uid", ""+p.max_uid);
+							msg_to_send.receiver.message_buffer.offer(msg_to_send);
 						}
 					}
-					Message new_msg = new Message(p,p.message_buffer[p.msg_front].sender , "reject", "");
-					msg.receiver.message_buffer[msg.receiver.msg_rear+1] = new_msg;	
 				}
 			}
 		}
 		
 	}
 }
-
-    }
-
