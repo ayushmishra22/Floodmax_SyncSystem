@@ -3,31 +3,29 @@ import java.util.*;
 
 public class Process extends Thread {
     int uid;
-    //ArrayList<Neigbour> neighbours;
-    //ArrayList<Message> msg;
-    int temp_leader;
-    int parent;
-    int round;
+    Process[] neighbors;
+    int max_uid;
+    Process parent;
+    Queue<Message> message_buffer;
     Integer sync_round;//used for synchronizing the processes
     boolean termination;
-    Process[] neighbours;
-    Message[] message_buffer;
-    int msg_front;
-    int msg_rear;
+    
 
     //constructor
      public Process(int id){
         uid=id;
-    }
-    public Process(int id,ArrayList<Neighbour> neigh_list){
-        uid=id;
-        parent=-1;
-        round=0;
-        temp_leader=id;
+        parent=null;
+        max_uid=id;
         termination=Boolean.FALSE;
-        message_buffer = new Message[2*neighbours.length];
-        msg_front = 0;
-        msg_rear = 0;
+        message_buffer = new LinkedList<Message>();
+    }
+    public Process(int id,Process[] Neighbors){
+        uid=id;
+        parent=null;
+        max_uid=id;
+        neighbors = Neighbors;
+        termination=Boolean.FALSE;
+        message_buffer = new LinkedList<Message>();
     }
 
     public void run(){
