@@ -13,7 +13,7 @@ public class Floodmax {
 				check_messages(p);
 			}
 		}
-		
+	}
 		
 		void check_messages(Process p) {
 			while(p.message_buffer.size() != 0) { 			//Each process must execute every message and send corresponding messages to its neighbors.
@@ -82,15 +82,15 @@ public class Floodmax {
 				}
 				
 				
-		p.sync_round += 1;
+		p.current_round += 1;
 		System.out.println("Process: "+p.uid+" Ready for Round: "+p.sync_round);
 
 		}
 	}
-}
 
+/*
 	private void check_messages(Process p) {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 }
