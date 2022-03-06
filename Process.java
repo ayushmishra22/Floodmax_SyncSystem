@@ -13,6 +13,7 @@ public class Process extends Thread {
     int sync_round;//used for synchronizing the processes
     int current_round;
     boolean termination;
+    Floodmax fm = new Floodmax();
 
     //constructor
     public Process(int id){
@@ -27,7 +28,7 @@ public class Process extends Thread {
     }
     public void run(){
         //System.out.println("Hey I am process "+uid);
-        Floodmax fm = new Floodmax();
+        //Floodmax fm = new Floodmax();
         fm.floodmax(this);
         // FloodMax.floodmax() to be called here
         /*synchronized(sync_round)
@@ -44,5 +45,9 @@ public class Process extends Thread {
                 System.out.println("Exception in process"+process_id+ " : "+ e.toString());
             }
         }*/
+    }
+    
+    public void stopProcess() {
+    	fm.programFinished = true;
     }
 }
