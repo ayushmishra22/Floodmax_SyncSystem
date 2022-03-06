@@ -11,7 +11,8 @@ public class Message { 			//Use this class to send and receive messages
 		this.type = type_of_message;
 		this.message = message;
 		String str = ""+sender.uid+"|"+receiver.uid+"|"+type_of_message+"|"+message;
-		System.out.println(str);
+		String s = "";
+		System.out.println(s);
 	}
 	
 	public Process getSender() {
