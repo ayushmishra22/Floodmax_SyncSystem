@@ -15,11 +15,13 @@ public class Master extends Thread{
 	
 	                                         
 	public void run() {
-		while(true) {
+		boolean continueThisThread = true;
+		while(continueThisThread) {
 			if(found_leader == 1) {
 				for(int i=0; i<child_processes.length; i++) {
-					child_processes[i].interrupt();
+					child_processes[i].stopProcess();
 				}
+				continueThisThread = false;
 			}
 			int signal = 1;
 			for(int i=0; i<child_processes.length; i++) {
