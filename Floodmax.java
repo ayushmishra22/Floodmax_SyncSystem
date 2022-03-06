@@ -1,5 +1,8 @@
 import java.util.*;
 public class Floodmax {			
+	
+	public boolean programFinished = false;
+	
 	public void floodmax(Process p) {
 		if(p.current_round == 0) {			//If it is the first round, then each process must send its id to all its neighbors
 			//System.out.println("Round 1-Process: "+p.uid);
@@ -35,10 +38,12 @@ public class Floodmax {
 				break;
 			}
 	}
-	if(f==1) {
+	if(f==1 && !programFinished) {
 		check_ifLeader(p);
+		try{
 		Message done_msg = new Message(p,p.parent , "I am Done", "");
 		done_msg.receiver.message_buffer.add(done_msg);
+		} catch(NullPointerException e){}
 	}
 	}
 	private void check_ifLeader(Process p) {
