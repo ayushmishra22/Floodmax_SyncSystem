@@ -1,31 +1,34 @@
 public class Message { 			//Use this class to send and receive messages
 	
-	int sender;
-	int receiver;
+	Process sender;
+	Process receiver;
 	String type;	//type can be "max_uid", "reject", "I am done", "Terminate" 
 	String message;
 	
-	public Message(int sender_id, int receiver_id, String message, String type_of_message) {
-		this.sender = sender_id;
-		this.receiver = receiver_id;
+	public Message(Process sender, Process receiver, String type_of_message, String message) {
+		this.sender = sender;
+		this.receiver = receiver;
 		this.type = type_of_message;
 		this.message = message;
+		String str = ""+sender.uid+"|"+receiver.uid+"|"+type_of_message+"|"+message;
+		String s = "";
+		System.out.println(s);
 	}
 	
-	public int getSenderID() {
+	public Process getSender() {
 		return this.sender;
 	}
 	
-	public void setSenderID(int uid) {
-		this.sender = uid;
+	public void setSender(Process sender) {
+		this.sender = sender;
 	}
 	
-	public int getReceiverID() {
+	public Process getReceiver() {
 		return this.receiver;
 	}
 	
-	public void setReceiverID(int uid) {
-		this.receiver = uid;
+	public void setReceiver(Process receiver) {
+		this.receiver = receiver;
 	}
 	
 	public String getType() {
