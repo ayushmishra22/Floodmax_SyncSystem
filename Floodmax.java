@@ -5,23 +5,18 @@ public class Floodmax {
 	
 	public void floodmax(Process p) {
 		if(p.current_round == 0) {			//If it is the first round, then each process must send its id to all its neighbors
-			//System.out.println("Round 1-Process: "+p.uid);
 			for(int i = 0; i<p.neighbors.length; i++) {
 				Message msg = new Message(p, p.neighbors[i], "max_uid", ""+p.max_uid);
 				msg.receiver.message_buffer.add(msg);
 			}
 			check_messages(p);
-			//System.out.println("Process: "+p.uid+" Ready for Round: 2");
 			p.current_round +=1;
 		}
-		//System.out.println("Current round = "+p.current_round);
-		//System.out.println("Sync round = "+p.sync_round);
 		while(true) {
 			if(p.current_round < p.sync_round) {
 				send_messages(p);
 				check_messages(p);
 				check_ifdone(p);
-				//System.out.println("Process: "+p.uid+" Ready for Round: "+(p.current_round+2));
 				p.current_round += 1;
 			}
 			else {
@@ -94,22 +89,10 @@ public class Floodmax {
 							if(p.neighbors[i] != received_msg.sender) {
 								Message msg_to_send = new Message(p, p.neighbors[i], "max_uid", ""+p.max_uid);
 								msg_to_send.receiver.message_buffer.add(msg_to_send);
-								/*try {
-									p.msg_to_be_sent.add(msg_to_send);
-									}
-									catch(Exception e) {
-										System.out.println("Null exception caught in line 99");
-									}*/
 							}
 						}
 						Message accept_msg = new Message(p,received_msg.sender , "accept", "");
 						accept_msg.receiver.message_buffer.add(accept_msg);
-						/*try {
-							p.msg_to_be_sent.add(accept_msg);
-							}
-							catch(Exception e) {
-								System.out.println("Null exception caught in line 109");
-							}*/
 						for(int i=0; i < p.neighbors.length; i++) {
 							p.convergecast[i] = 0;
 						}
